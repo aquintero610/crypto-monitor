@@ -49,6 +49,7 @@ class ViewController: UIViewController {
         self.btcPrice.text = self.coins[0].price_usd
         self.ethPrice.text = self.coins[1].price_usd
         self.iotaPrice.text = self.coins[3].price_usd
+        print("Prices updated")
     }
     
     //fetch price data parses json file from coinmarket and updates "coins" with
@@ -83,9 +84,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchPriceData();
+
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(countdownRefresh), userInfo: nil, repeats: true)
      
-        
         
     }
 
@@ -93,6 +94,7 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+
 
 
 }

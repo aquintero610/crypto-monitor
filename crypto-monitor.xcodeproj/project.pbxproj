@@ -194,6 +194,11 @@
 					07AA5D691FDCFD1C009A29D3 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					07AA5D7D1FDCFD1D009A29D3 = {
 						CreatedOnToolsVersion = 9.2;
