@@ -1,0 +1,7 @@
+https://www.codementor.io/rheller/getting-reading-json-data-from-url-objective-c-du107s5mf
+
+NSError *error;
+NSString *url_string = [NSString stringWithFormat: @"http://YourWebSite.com/high_score.json"];
+NSData *data = [NSData dataWithContentsOfURL: [NSURL URLWithString:url_string]];
+NSMutableArray *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+NSLog(@"json: %@", json);
