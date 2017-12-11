@@ -24,7 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         if let vc = window?.rootViewController as? ViewController {
             vc.fetchPriceData()
-            vc.updateUI()
+            vc.setDataPrice()
+            vc.checkPriceAlert()
             completionHandler(.newData)
         }
         

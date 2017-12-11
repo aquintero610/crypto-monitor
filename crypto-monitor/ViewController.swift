@@ -78,6 +78,16 @@ class ViewController: UIViewController {
             mCounter = 10;
             self.fetchPriceData()
             self.setDataPrice()
+            self.checkPriceAlert()
+        }
+    }
+    
+    func checkPriceAlert(){
+        if(Double(coins[0].price_usd)! > mPriceAboveAlert){
+            print("BTC IS ABOVE " + String(mPriceAboveAlert))
+        }
+        else if(Double(coins[0].price_usd)! < mPriceBelowAlert){
+            print("BTC IS BELOW " + String(mPriceBelowAlert))
         }
     }
     
