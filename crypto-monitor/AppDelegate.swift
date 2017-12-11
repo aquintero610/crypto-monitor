@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -27,6 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             vc.setDataPrice()
             vc.checkPriceAlert()
             completionHandler(.newData)
+            
         }
         
 //        let config = URLSessionConfiguration.background(withIdentifier: "bg")

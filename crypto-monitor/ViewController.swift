@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import UserNotifications
 struct Coin: Decodable {
     let name: String
     let price_usd: String
@@ -85,9 +85,23 @@ class ViewController: UIViewController {
     func checkPriceAlert(){
         if(Double(coins[0].price_usd)! > mPriceAboveAlert){
             print("BTC IS ABOVE " + String(mPriceAboveAlert))
+            let content = UNMutableNotificationContent()
+            content.title = "BTC PRICE ALERT"
+            content.subtitle = "Above " + String(mPriceAboveAlert)
+            content.badge = 1
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+            let request = UNNotificationRequest(identifier: "PriceChange", content: content, trigger: trigger)
+            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
         }
         else if(Double(coins[0].price_usd)! < mPriceBelowAlert){
             print("BTC IS BELOW " + String(mPriceBelowAlert))
+            let content = UNMutableNotificationContent()
+            content.title = "BTC PRICE ALERT"
+            content.subtitle = "Below " + String(mPriceAboveAlert)
+            content.badge = 1
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+            let request = UNNotificationRequest(identifier: "PriceChange", content: content, trigger: trigger)
+            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
         }
     }
     
@@ -96,6 +110,11 @@ class ViewController: UIViewController {
         fetchPriceData();
 
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(countdownRefresh), userInfo: nil, repeats: true)
+        
+        //setup notification badges
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, . sound, .badge], completionHandler: {didAllow, error in
+            //error check over here
+        })
      
         
     }
