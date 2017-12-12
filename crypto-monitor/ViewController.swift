@@ -41,8 +41,8 @@ class ViewController: UIViewController {
     
     //refresh price fetches new price data and updates the label
     @IBAction func refreshPrice(_ sender: Any) {
-        fetchPriceData()
-        setDataPrice()
+        fetchAndUpdatePriceData()
+        checkPriceAlert()
     }
     
     func setDataPrice(){
@@ -54,21 +54,26 @@ class ViewController: UIViewController {
     
     //fetch price data parses json file from coinmarket and updates "coins" with
     //the latest prices
-    func fetchPriceData(){
+    func fetchAndUpdatePriceData(){
       // Do any additional setup after loading the view, typically from a nib.
       let jsonURL = "https://api.coinmarketcap.com/v1/ticker/"
       let url = URL(string: jsonURL);
       URLSession.shared.dataTask(with: url!) { (data, response, error) in
         do{
-            self.coins = try JSONDecoder().decode([Coin].self, from: data!)
-            print(self.coins[0].name + ": " + self.coins[0].price_usd)
-            print(self.coins[1].name + ": " + self.coins[1].price_usd)
-            print(self.coins[3].name + ": " + self.coins[3].price_usd)
+          self.coins = try JSONDecoder().decode([Coin].self, from: data!)
+          DispatchQueue.main.async { // Correct
+            self.setDataPrice();
+          }
+          print(self.coins[0].name + " " + self.coins[0].price_usd)
+          print(self.coins[1].name + " " + self.coins[1].price_usd)
+          print(self.coins[4].name + " " + self.coins[4].price_usd)
         }
         catch{
             print("ERROR");
         }
       }.resume()
+      
+      
     }
     
     @objc func countdownRefresh(){
@@ -76,13 +81,13 @@ class ViewController: UIViewController {
         print(mCounter);
         if(0 == mCounter){
             mCounter = 10;
-            self.fetchPriceData()
-            self.setDataPrice()
+            self.fetchAndUpdatePriceData()
             self.checkPriceAlert()
         }
     }
     
     func checkPriceAlert(){
+      print("checking price alert")
         if(Double(coins[0].price_usd)! > mPriceAboveAlert){
             print("BTC IS ABOVE " + String(mPriceAboveAlert))
             let content = UNMutableNotificationContent()
@@ -107,9 +112,9 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchPriceData();
+        fetchAndUpdatePriceData();
 
-        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(countdownRefresh), userInfo: nil, repeats: true)
+        //timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(countdownRefresh), userInfo: nil, repeats: true)
         
         //setup notification badges
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, . sound, .badge], completionHandler: {didAllow, error in
